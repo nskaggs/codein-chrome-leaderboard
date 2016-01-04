@@ -19,9 +19,9 @@ function toArray(){
     return arr;
 }
 
-function printTop10(){
+function printTop20(){
     var studentArray = toArray();
-    var showTasks = true;
+    var showTasks = false;
     if(!console.groupCollapsed || !console.groupEnd) {
         showTasks = false;
     }
@@ -31,7 +31,7 @@ function printTop10(){
 
     if(showTasks)
         console.groupCollapsed("Leaderboard");
-    for(var i = 0; i < 10 && i < studentArray.length; i++){
+    for(var i = 0; i < 20 && i < studentArray.length; i++){
         var student = studentArray[i];
         var studentScore = (i + 1) + ") " + student.display_name + ": " +
                             student.count+ " tasks.";
@@ -49,6 +49,18 @@ function printTop10(){
     }
     if(showTasks)
         console.groupEnd();
+}
+
+function printSummary(){
+    var studentArray = toArray();
+    var totalTasks = 0;
+
+    for(var i = 0; i < studentArray.length; i++){
+        var student = studentArray[i];
+        totalTasks = totalTasks + student.count;
+    }
+
+    console.info("Summary of Work: " + studentArray.length + " students have completed " + totalTasks + " tasks");
 
 }
 
@@ -83,7 +95,8 @@ function fetchData(){
             }
         }
 
-        printTop10();
+        printSummary();
+        printTop20();
 
     }).fail(function(){
         console.error("Could not fetch data.");
@@ -91,6 +104,6 @@ function fetchData(){
 }
 
 $(document).ready(function(){
-    console.info("Loading Leaderboard");
+    console.info("Loading Data");
     fetchData();
 });
